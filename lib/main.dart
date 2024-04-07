@@ -1,3 +1,4 @@
+import 'package:blog_app/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:blog_app/core/theme/theme.dart';
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_app/features/auth/presentation/views/sign_in_view.dart';
@@ -13,9 +14,12 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
+        BlocProvider<AppUserCubit>(
+          create: (_) => serviceLocator<AppUserCubit>(),
+        ),
         BlocProvider<AuthBloc>(
           create: (_) => serviceLocator<AuthBloc>(),
-        )
+        ),
       ],
       child: const MainApp(),
     ),
@@ -39,8 +43,23 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Blog App',
       theme: AppTheme.darkThemeMode,
-      home: const SignInView(),
+      home: BlocSelector<AppUserCubit, AppUserState, bool>(
+        selector: (state) {
+          return state is AppUserSignedIn;
+        },
+        builder: (context, isSignedIn) {
+          if (isSignedIn) {
+            return const Scaffold(
+              body: Center(
+                child: Text('Signed In'),
+              ),
+            );
+          }
+          return const SignInView();
+        },
+      ),
     );
   }
 }

@@ -44,7 +44,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       log('AuthRemoteDataSourceImpl called');
 
-      return UserModel.fromJson(response.user!.toJson());
+      return UserModel.fromJson(response.user!.toJson()).copyWith(
+        email: email,
+      );
     } catch (e) {
       throw ServerExceptions(e.toString());
     }
@@ -71,7 +73,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       log('AuthRemoteDataSourceImpl called');
 
-      return UserModel.fromJson(response.user!.toJson());
+      return UserModel.fromJson(response.user!.toJson()).copyWith(
+        email: email,
+      );
     } catch (e) {
       throw ServerExceptions(e.toString());
     }
@@ -86,13 +90,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
               currentUserSession!.user.id,
             );
 
-        return UserModel.fromJson(userData.first);
+        return UserModel.fromJson(userData.first).copyWith(
+          email: currentUserSession!.user.email,
+        );
       }
 
       return null;
     } catch (e) {
       throw ServerExceptions(e.toString());
     }
-    return null;
   }
 }
