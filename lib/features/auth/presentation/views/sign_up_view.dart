@@ -83,9 +83,9 @@ class _SignUpViewState extends State<SignUpView> {
                         log('Executed');
                         context.read<AuthBloc>().add(
                               AuthSignUp(
-                                name: nameController.text,
-                                email: emailController.text,
-                                password: passwordController.text,
+                                name: nameController.text.trim(),
+                                email: emailController.text.trim(),
+                                password: passwordController.text.trim(),
                               ),
                             );
                       }
