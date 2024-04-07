@@ -1,6 +1,8 @@
 import 'dart:developer';
 
+import 'package:blog_app/core/usecase/usecase.dart';
 import 'package:blog_app/features/auth/domain/entities/user.dart';
+import 'package:blog_app/features/auth/domain/usecases/current_user.dart';
 import 'package:blog_app/features/auth/domain/usecases/user_sign_in.dart';
 import 'package:blog_app/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:flutter/material.dart';
@@ -12,13 +14,20 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final UserSignUp _userSignUp;
   final UserSignIn _userSignIn;
-  AuthBloc({required UserSignUp userSignUp, required UserSignIn userSignIn})
-      : _userSignUp = userSignUp,
+  final CurrentUser _currentUser;
+  AuthBloc({
+    required UserSignUp userSignUp,
+    required UserSignIn userSignIn,
+    required CurrentUser currentUser,
+  })  : _userSignUp = userSignUp,
         _userSignIn = userSignIn,
+        _currentUser = currentUser,
         super(AuthInitial()) {
     on<AuthSignUp>(_onAuthSignUp);
 
     on<AuthSignIn>(_onAuthSignIn);
+
+    on<AuthIsUserSignedIn>(_isUserSignedIn);
   }
 
   void _onAuthSignUp(AuthSignUp event, Emitter<AuthState> emit) async {
@@ -33,7 +42,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       ),
     );
 
-    res.fold((l) => emit(AuthFailure(l.message)), (r) => emit(AuthSuccess(r)));
+    res.fold(
+      (l) => emit(AuthFailure(l.message)),
+      (r) => emit(AuthSuccess(r)),
+    );
   }
 
   void _onAuthSignIn(AuthSignIn event, Emitter<AuthState> emit) async {
@@ -47,7 +59,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       ),
     );
 
-    res.fold((l) => emit(AuthFailure(l.message)), (r) => emit(AuthSuccess(r)));
+    res.fold(
+      (l) => emit(AuthFailure(l.message)),
+      (r) => emit(AuthSuccess(r)),
+    );
+  }
+
+  void _isUserSignedIn(
+      AuthIsUserSignedIn event, Emitter<AuthState> emit) async {
+    final res = await _currentUser(NoParams());
+
+    res.fold(
+      (l) => emit(AuthFailure(l.message)),
+      (r) {
+        log(r.id);
+        log(r.name);
+
+        emit(AuthSuccess(r));
+      },
+    );
   }
 
   @override
