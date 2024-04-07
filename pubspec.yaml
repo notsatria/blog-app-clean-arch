@@ -9,7 +9,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.1.5
   fpdart: ^1.1.0
+  get_it: ^7.6.7
   supabase_flutter: ^2.4.0
 
 dev_dependencies:

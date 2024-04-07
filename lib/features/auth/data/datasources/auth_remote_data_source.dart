@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:blog_app/core/error/exepctions.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -33,14 +35,19 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String password,
   }) async {
     try {
-      final response = await supabaseClient.auth
-          .signUp(email: email, password: password, data: {
-        'name': name,
-      });
+      final response = await supabaseClient.auth.signUp(
+        email: email,
+        password: password,
+        data: {
+          'name': name,
+        },
+      );
 
       if (response.user == null) {
         throw ServerExceptions('User is null!');
       }
+
+      log('AuthRemoteDataSourceImpl called');
 
       return response.user!.id;
     } catch (e) {
