@@ -1,6 +1,8 @@
 import 'dart:developer';
 
+import 'package:blog_app/core/common/widgets/loading.dart';
 import 'package:blog_app/core/theme/app_palette.dart';
+import 'package:blog_app/core/utils/show_snackbar.dart';
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_app/features/auth/presentation/views/sign_in_view.dart';
 import 'package:blog_app/features/auth/presentation/widgets/auth_field.dart';
@@ -35,26 +37,20 @@ class _SignUpViewState extends State<SignUpView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AuthBloc, AuthState>(
-      listener: (context, state) {
-        if (state is AuthSuccess) {
-          Navigator.pushReplacement(
-            context,
-            SignInView.route(),
-          );
-        } else if (state is AuthFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message),
-            ),
-          );
-        }
-      },
-      builder: (context, state) {
-        return Scaffold(
-          body: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Form(
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: BlocConsumer<AuthBloc, AuthState>(
+          listener: (context, state) {
+            if (state is AuthFailure) {
+              showSnackbar(context, state.message);
+            }
+          },
+          builder: (context, state) {
+            if (state is AuthLoading) {
+              return const Loading();
+            }
+            return Form(
               key: formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -124,10 +120,10 @@ class _SignUpViewState extends State<SignUpView> {
                   )
                 ],
               ),
-            ),
-          ),
-        );
-      },
+            );
+          },
+        ),
+      ),
     );
   }
 }
