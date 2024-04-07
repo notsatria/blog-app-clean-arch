@@ -4,6 +4,7 @@ import 'package:blog_app/core/theme/app_palette.dart';
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_app/features/auth/presentation/views/sign_in_view.dart';
 import 'package:blog_app/features/auth/presentation/widgets/auth_field.dart';
+import 'package:blog_app/features/auth/presentation/widgets/auth_gradient_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -79,11 +80,11 @@ class _SignUpViewState extends State<SignUpView> {
                     isObscureText: true,
                   ),
                   const SizedBox(height: 20),
-                  /*
                   AuthGradientButton(
                     text: 'Sign Up',
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
+                        log('Executed');
                         context.read<AuthBloc>().add(
                               AuthSignUp(
                                 name: nameController.text,
@@ -93,21 +94,7 @@ class _SignUpViewState extends State<SignUpView> {
                             );
                       }
                     },
-                  ),*/
-                  ElevatedButton(
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          log('executed');
-                          context.read<AuthBloc>().add(
-                                AuthSignUp(
-                                  name: nameController.text,
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                ),
-                              );
-                        }
-                      },
-                      child: const Text('Sign Up')),
+                  ),
                   const SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
