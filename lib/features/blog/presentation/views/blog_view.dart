@@ -3,6 +3,7 @@ import 'package:blog_app/core/theme/app_palette.dart';
 import 'package:blog_app/core/utils/show_snackbar.dart';
 import 'package:blog_app/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:blog_app/features/blog/presentation/views/add_new_blog_view.dart';
+import 'package:blog_app/features/blog/presentation/views/blog_detail_view.dart';
 import 'package:blog_app/features/blog/presentation/widgets/blog_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,6 +53,9 @@ class _BlogViewState extends State<BlogView> {
                   final blog = state.blogs[index];
                   return BlogCard(
                     blog: blog,
+                    onTap: () {
+                      Navigator.push(context, BlogDetailView.route(blog));
+                    },
                     color: index % 3 == 0
                         ? AppPalette.gradient1
                         : index % 3 == 1
