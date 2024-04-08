@@ -2,7 +2,7 @@ import 'package:blog_app/core/common/entities/user.dart';
 import 'package:blog_app/core/error/exepctions.dart';
 import 'package:blog_app/core/error/failures.dart';
 import 'package:blog_app/features/auth/data/datasources/auth_remote_data_source.dart';
-import 'package:blog_app/features/auth/domain/repository/auth_repository.dart';
+import 'package:blog_app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
@@ -21,7 +21,7 @@ class AuthRepositoryImpl implements AuthRepository {
       }
 
       return right(user);
-    } on ServerExceptions catch (e) {
+    } on ServerException catch (e) {
       return left(Failure(e.message));
     }
   }
@@ -59,7 +59,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return right(user);
     } on sb.AuthException catch (e) {
       return left(Failure(e.message));
-    } on ServerExceptions catch (e) {
+    } on ServerException catch (e) {
       return left(Failure(e.message));
     }
   }

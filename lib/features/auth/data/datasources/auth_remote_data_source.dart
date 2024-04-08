@@ -39,7 +39,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
 
       if (response.user == null) {
-        throw ServerExceptions('User is null!');
+        throw ServerException('User is null!');
       }
 
       log('AuthRemoteDataSourceImpl called');
@@ -48,7 +48,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         email: email,
       );
     } catch (e) {
-      throw ServerExceptions(e.toString());
+      throw ServerException(e.toString());
     }
   }
 
@@ -68,7 +68,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
 
       if (response.user == null) {
-        throw ServerExceptions('User is null!');
+        throw ServerException('User is null!');
       }
 
       log('AuthRemoteDataSourceImpl called');
@@ -77,7 +77,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         email: email,
       );
     } catch (e) {
-      throw ServerExceptions(e.toString());
+      throw ServerException(e.toString());
     }
   }
 
@@ -97,7 +97,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       return null;
     } catch (e) {
-      throw ServerExceptions(e.toString());
+      throw ServerException(e.toString());
     }
   }
 }
