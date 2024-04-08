@@ -1,7 +1,7 @@
+import 'package:blog_app/core/common/entities/user.dart';
 import 'package:blog_app/core/error/exepctions.dart';
 import 'package:blog_app/core/error/failures.dart';
 import 'package:blog_app/features/auth/data/datasources/auth_remote_data_source.dart';
-import 'package:blog_app/core/common/entities/user.dart';
 import 'package:blog_app/features/auth/domain/repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
@@ -17,7 +17,7 @@ class AuthRepositoryImpl implements AuthRepository {
       final user = await remoteDataSource.getCurrentUserData();
 
       if (user == null) {
-        return left(Failure('User note logged in'));
+        return left(Failure('User not logged in'));
       }
 
       return right(user);

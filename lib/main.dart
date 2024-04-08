@@ -2,6 +2,7 @@ import 'package:blog_app/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:blog_app/core/theme/theme.dart';
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_app/features/auth/presentation/views/sign_in_view.dart';
+import 'package:blog_app/features/blog/presentation/views/blog_view.dart';
 import 'package:blog_app/init_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -51,11 +52,7 @@ class _MainAppState extends State<MainApp> {
         },
         builder: (context, isSignedIn) {
           if (isSignedIn) {
-            return const Scaffold(
-              body: Center(
-                child: Text('Signed In'),
-              ),
-            );
+            return const BlogView();
           }
           return const SignInView();
         },
